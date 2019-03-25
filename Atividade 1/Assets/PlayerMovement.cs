@@ -6,6 +6,8 @@ public class PlayerMovement : MonoBehaviour
 {
 
     public CharacterController2D controller;
+    public Animator animator;
+
 
     public float runSpeed = 40f;
 
@@ -15,12 +17,23 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // pega velocidade de movimento do player
        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        // muda animação
+        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
+        // ve se o player apertou o botao de pular
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
+            animator.SetBool("IsJumping", true);
         }
+    }
+
+    public void OnLanding()
+    {
+        animator.SetBool("IsJumping", false);
+        
     }
 
     void FixedUpdate()
